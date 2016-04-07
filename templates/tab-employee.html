@@ -1,4 +1,10 @@
 <ion-view view-title="Employee">
+    <ion-nav-buttons side="right">  
+        <button class="button button-icon button-clear ion-plus" ng-click="">
+        </button>
+        <button class="button button-icon button-clear ion-refresh" ng-click="refresh()">
+        </button>
+    </ion-nav-buttons>
   <ion-content>
     <ion-list>
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="emp in employee" type="item-text-wrap" href="#/tab/employee/{{emp.id}}">

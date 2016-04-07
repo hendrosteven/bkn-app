@@ -24,6 +24,16 @@ angular.module('starter.controllers', [])
         $scope.employee = obj.payload.rows;        
     });
     
+    $scope.refresh = function(){
+        //$scope.employee = {};
+        $http({
+            method: 'GET',
+            url: 'http://bkn-app.jelastic.skali.net/api/v1/employee'        
+        }).success(function (obj, status) {
+            $scope.employee = obj.payload.rows;        
+        });
+    };
+    
 })
 
 .controller('EmployeeDetailCtrl', function($scope, $stateParams, Chats) {
