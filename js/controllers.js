@@ -2,7 +2,7 @@ angular.module('starter.controllers', [])
 
 .controller('DashCtrl', function($scope, $http) {})
 
-.controller('EmployeeCtrl', function($scope, $http, $ionicModal) {
+.controller('EmployeeCtrl', function($scope, $http, $ionicModal, $cordovaToast) {
 
     //panggil restfull service employee
     $http({
@@ -51,7 +51,11 @@ angular.module('starter.controllers', [])
             method: 'GET',
             url: 'http://bkn-app.jelastic.skali.net/api/v1/employee/name/'+keyword
         }).success(function (obj, status) {
-            $scope.employee = obj.payload.rows;
+            if (obj.payload.rows.length > 0) {
+                 $scope.employee = obj.payload.rows;
+            } else {
+                $cordovaToast.showLongCenter('Data tidak ditemukan');
+            }
         });
     };
 
