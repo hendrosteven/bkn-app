@@ -8,30 +8,27 @@
 <div class="list" style="padding-top:20px">
   <label class="item item-input item-stacked-label">
     <span class="input-label">Nip</span>
-    <input type="text" placeholder="123">
+    <input type="text" placeholder="123" ng-model="input.number">
   </label>
   <label class="item item-input item-stacked-label">
     <span class="input-label">Full Name</span>
-    <input type="text" placeholder="Your name">
+    <input type="text" placeholder="Your name" ng-model="input.fullName">
   </label>
   <label class="item item-input item-stacked-label">
     <span class="input-label">Address</span>
-    <input type="text" placeholder="Your address">
+    <input type="text" placeholder="Your address" ng-model="input.address">
   </label>
   <label class="item item-input item-stacked-label">
     <span class="input-label">Email</span>
-    <input type="text" placeholder="Your email">
+    <input type="text" placeholder="Your email" ng-model="input.email">
   </label>
   <label class="item item-input item-stacked-label">
     <span class="input-label">Phone</span>
-    <input type="text" placeholder="081xx">
+    <input type="text" placeholder="081xx" ng-model="input.phone">
   </label>
 </div>
 </content>
-
 <ion-footer-bar align-title="center" class="bar-assertive">
-  <button class="button button-assertive" ng-click="simpanEmployee()">
-        Save and Close
- </button>
+    <button class="button" ng-click="save()">Save</button>
 </ion-footer-bar>
 </div>

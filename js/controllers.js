@@ -21,7 +21,40 @@ angular.module('starter.controllers', [])
         });
     };
     
-    $scope.input = {};
+    $scope.input = {
+        "number" : "",
+        "fullName" : "",
+        "address" : "",
+        "email" : "",
+        "phone" : "",
+        "photo" : "-",
+        "inputBy" : null
+    };
+
+    //handle save button
+    $scope.save = function(){
+        $http({
+            method: 'POST',
+            url: 'http://bkn-app.jelastic.skali.net/api/v1/employee',
+            data: $scope.input
+            //headers : {'Content-Type' : 'application/json'}
+        }).success(function (obj, status) {
+            $scope.refresh;
+            $scope.modal.hide();
+        });
+    };
+
+
+    //handle searching
+    $scope.searching = function(keyword){
+        $http({
+            method: 'GET',
+            url: 'http://bkn-app.jelastic.skali.net/api/v1/employee/name/'+keyword
+        }).success(function (obj, status) {
+            $scope.employee = obj.payload.rows;
+        });
+    };
+
 
     //setup edit form dialog
     $ionicModal.fromTemplateUrl('templates/employee-input.html', {

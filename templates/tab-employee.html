@@ -5,6 +5,11 @@
         <button class="button button-icon button-clear ion-refresh" ng-click="refresh()">
         </button>
     </ion-nav-buttons>
+     <ion-header-bar class="bar-light bar-subheader">
+        <input type="text" placeholder="Cari Produk" style="width: 90%" ng-model="searchKey" value=" ">
+        <button class="button button-icon ion-android-search input-button" ng-click="searching(searchKey)">
+        </button>
+    </ion-header-bar>
   <ion-content>
     <ion-list>
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="emp in employee" type="item-text-wrap" href="#/tab/employee/{{emp.id}}">
@@ -12,7 +17,6 @@
         <h2>{{emp.fullName}}</h2>
         <p>{{emp.email}}</p>
         <i class="icon ion-chevron-right icon-accessory"></i>
-
         <ion-option-button class="button-assertive" ng-click="remove(emp)">
           Delete
         </ion-option-button>
