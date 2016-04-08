@@ -21,6 +21,8 @@ angular.module('starter.controllers', [])
         });
     };
     
+    $scope.input = {};
+
     //setup edit form dialog
     $ionicModal.fromTemplateUrl('templates/employee-input.html', {
         scope: $scope,

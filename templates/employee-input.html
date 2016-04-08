@@ -3,18 +3,35 @@
   <h1 class="title">Input Employee</h1>
   <div class="button button-clear" ng-click="closeModal()"><span class="icon ion-close"></span></div>
 </div>
-<div class="list">
+
+<content has-header="true" padding="true" style="padding: 10px">
+<div class="list" style="padding-top:20px">
   <label class="item item-input item-stacked-label">
-    <span class="input-label">First Name</span>
-    <input type="text" placeholder="John">
+    <span class="input-label">Nip</span>
+    <input type="text" placeholder="123">
   </label>
   <label class="item item-input item-stacked-label">
-    <span class="input-label">Last Name</span>
-    <input type="text" placeholder="Suhr">
+    <span class="input-label">Full Name</span>
+    <input type="text" placeholder="Your name">
+  </label>
+  <label class="item item-input item-stacked-label">
+    <span class="input-label">Address</span>
+    <input type="text" placeholder="Your address">
   </label>
   <label class="item item-input item-stacked-label">
     <span class="input-label">Email</span>
-    <input type="text" placeholder="john@suhr.com">
+    <input type="text" placeholder="Your email">
+  </label>
+  <label class="item item-input item-stacked-label">
+    <span class="input-label">Phone</span>
+    <input type="text" placeholder="081xx">
   </label>
 </div>
+</content>
+
+<ion-footer-bar align-title="center" class="bar-assertive">
+  <button class="button button-assertive" ng-click="simpanEmployee()">
+        Save and Close
+ </button>
+</ion-footer-bar>
 </div>
