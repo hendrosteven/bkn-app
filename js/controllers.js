@@ -1,5 +1,40 @@
 angular.module('starter.controllers', [])
 
+.controller('LoginCtrl',function($scope, $ionicModal){
+
+    $scope.input = {
+        "email" : "",
+        "password" : "",
+        "fullName" : ""
+    };
+
+    //setup signup form dialog
+    $ionicModal.fromTemplateUrl('templates/signup.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function (modal) {
+        $scope.modal = modal;
+    });
+
+    $scope.signupOpen = function () {
+        $scope.modal.show();
+    };
+
+    $scope.signupClose = function () {
+        $scope.modal.hide();
+    };
+
+    //Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function () {
+        $scope.modal.remove();
+    });
+
+    $scope.register = function(){
+
+    };
+
+})
+
 .controller('DashCtrl', function($scope, $http) {})
 
 .controller('EmployeeCtrl', function($scope, $http, $ionicModal, $cordovaToast) {
