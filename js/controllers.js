@@ -76,6 +76,7 @@ angular.module('starter.controllers', [])
             if (obj.responseStatus === true) {
                 $scope.loged = obj.payload.rows;
                 window.localStorage['auth'] = string;
+                window.localStorage['id'] = $scope.loged.id;
                 window.localStorage['fullName'] = $scope.loged.fullName;
                 window.localStorage['email'] = $scope.loged.email;
                 $scope.login = {};
@@ -187,20 +188,74 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('AccountCtrl', function($scope, $ionicHistory, $state) {
+.controller('AccountCtrl', function($http, $cordovaToast, $scope, $ionicHistory, $state, $ionicModal, md5, $base64) {
 
     $scope.account = {
+       "id" : window.localStorage['id'],
        "fullName" : window.localStorage['fullName'],
-       "email"    : window.localStorage['email']
+       "email"    : window.localStorage['email'],
+       "password" : ""
     };
 
     $scope.logout = function(){
         window.localStorage.removeItem('auth');
+        window.localStorage.removeItem('id');
         window.localStorage.removeItem('fullName');
         window.localStorage.removeItem('email');
         $ionicHistory.clearCache();
         $ionicHistory.clearHistory();
         $state.go('login');
+    };
+
+    //setup edit form dialog
+    $ionicModal.fromTemplateUrl('templates/update.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function (modal) {
+        $scope.modal = modal;
+    });
+
+    $scope.editOpen = function () {
+        $scope.modal.show();
+    };
+
+    $scope.editClose = function () {
+        $scope.modal.hide();
+    };
+
+    //Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function () {
+        $scope.modal.remove();
+    });
+
+
+
+    $scope.update = function(){
+
+        var pass = md5.createHash($scope.account.password);
+        $scope.account.password = pass;
+        $scope.auth = window.localStorage['auth'];
+
+        var string = $base64.encode($scope.account.email + ':' + pass);
+
+        $http({
+            method: 'POST',
+            url: 'http://bkn-app.jelastic.skali.net/api/v1/users/update',
+            data : $scope.account,
+            headers: {'Authorization': 'Basic ' + $scope.auth}
+        }).success(function (obj, status) {
+            if(obj.responseStatus!=false){
+                $scope.users = obj.payload.rows;
+                window.localStorage['auth'] = string;
+                window.localStorage['id'] = $scope.users.id;
+                window.localStorage['fullName'] = $scope.users.fullName;
+                window.localStorage['email'] = $scope.users.email;
+                $cordovaToast.showLongCenter('Users updated');
+                $scope.modal.hide();
+            }else{
+                $cordovaToast.showLongCenter(obj.responseMessage);
+            }
+        });
     };
 
 });
