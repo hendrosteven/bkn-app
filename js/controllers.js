@@ -44,6 +44,7 @@ angular.module('starter.controllers', [])
                 $scope.input.email = "";
                 $scope.input.password = "";
                 $scope.input.fullName = "";
+                $scope.modal.hide();
             }else{
                 $cordovaToast.showLongCenter(obj.responseMessage);
             }
