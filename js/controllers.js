@@ -90,8 +90,14 @@ angular.module('starter.controllers', [])
 
 .controller('DashCtrl', function($scope, $http) {})
 
-.controller('EmployeeCtrl', function($scope, $http, $ionicModal, $cordovaToast) {
+.controller('EmployeeCtrl', function($scope, $http, $ionicModal, $cordovaToast, $ionicHistory) {
     $scope.auth = window.localStorage['auth'];
+
+    $scope.$on("$ionicView.enter", function () {
+        $ionicHistory.clearCache();
+        $ionicHistory.clearHistory();
+    });
+
     //panggil restfull service employee
     $http({
         method: 'GET',
@@ -129,7 +135,7 @@ angular.module('starter.controllers', [])
             data: $scope.input,
             headers: {'Authorization': 'Basic ' + $scope.auth}
         }).success(function (obj, status) {
-            $scope.refresh;
+            //$scope.refresh;
             $scope.input = {};
             $scope.modal.hide();
         });
