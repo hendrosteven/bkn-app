@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('LoginCtrl',function($scope, $ionicModal, $http){
+.controller('LoginCtrl',function($scope, $ionicModal, $http, md5, $cordovaToast){
 
     $scope.input = {
         "email" : "",
@@ -30,7 +30,24 @@ angular.module('starter.controllers', [])
     });
 
     $scope.register = function(){
+        var pass = md5.createHash($scope.input.password);
+        $scope.input.password = pass;
 
+        $http({
+            method: 'POST',
+            url: 'http://bkn-app.jelastic.skali.net/api/v1/users/register',
+            data : $scope.input
+        }).success(function (obj, status) {
+            if(obj.responseStatus!=false){
+                $scope.users = obj.payload.rows;
+                $cordovaToast.showLongCenter('Registered User Id : ' + $scope.users.id);
+                $scope.input.email = "";
+                $scope.input.password = "";
+                $scope.input.fullName = "";
+            }else{
+                $cordovaToast.showLongCenter(obj.responseMessage);
+            }
+        });
     };
 
     $scope.login = function(){
