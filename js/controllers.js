@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('LoginCtrl',function($scope, $ionicModal){
+.controller('LoginCtrl',function($scope, $ionicModal, $http){
 
     $scope.input = {
         "email" : "",
@@ -30,6 +30,10 @@ angular.module('starter.controllers', [])
     });
 
     $scope.register = function(){
+
+    };
+
+    $scope.login = function(){
 
     };
 
