@@ -2,6 +2,11 @@ angular.module('starter.controllers', [])
 
 .controller('LoginCtrl',function($scope, $ionicModal, $http, md5, $cordovaToast, $state, $base64){
 
+    //cek if already login
+    if (window.localStorage['auth']) {
+        $state.go('tab.dash');
+    }
+
     $scope.input = {
         "email" : "",
         "password" : "",
@@ -49,6 +54,7 @@ angular.module('starter.controllers', [])
                 $scope.input.email = "";
                 $scope.input.password = "";
                 $scope.input.fullName = "";
+                $scope.input = {};
                 $scope.modal.hide();
             }else{
                 $cordovaToast.showLongCenter(obj.responseMessage);
@@ -68,7 +74,11 @@ angular.module('starter.controllers', [])
             data: $scope.login
         }).success(function (obj, status) {
             if (obj.responseStatus === true) {
+                $scope.loged = obj.payload.rows;
                 window.localStorage['auth'] = string;
+                window.localStorage['fullName'] = $scope.loged.fullName;
+                window.localStorage['email'] = $scope.loged.email;
+                $scope.login = {};
                 $state.go('tab.dash');
             } else {
                 $cordovaToast.showLongCenter("Login Gagal");
@@ -120,6 +130,7 @@ angular.module('starter.controllers', [])
             headers: {'Authorization': 'Basic ' + $scope.auth}
         }).success(function (obj, status) {
             $scope.refresh;
+            $scope.input = {};
             $scope.modal.hide();
         });
     };
@@ -168,8 +179,22 @@ angular.module('starter.controllers', [])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
+
+
+.controller('AccountCtrl', function($scope, $ionicHistory, $state) {
+
+    $scope.account = {
+       "fullName" : window.localStorage['fullName'],
+       "email"    : window.localStorage['email']
+    };
+
+    $scope.logout = function(){
+        window.localStorage.removeItem('auth');
+        window.localStorage.removeItem('fullName');
+        window.localStorage.removeItem('email');
+        $ionicHistory.clearCache();
+        $ionicHistory.clearHistory();
+        $state.go('login');
+    };
+
 });
