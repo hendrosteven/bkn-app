@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('LoginCtrl',function($scope, $ionicModal, $http, md5, $cordovaToast, $state, $base64, $ionicHistory){
+.controller('LoginCtrl',function($scope, $ionicModal, $http, md5, $cordovaToast, $state, $base64, $ionicHistory, $ionicPopup){
 
     //cek if already login
     if (window.localStorage['auth']) {
@@ -87,7 +87,10 @@ angular.module('starter.controllers', [])
                 $scope.login = {};
                 $state.go('tab.dash');
             } else {
-                $cordovaToast.showLongCenter("Login Gagal");
+                var alertPopup = $ionicPopup.alert({
+                    title: 'Login Fail',
+                    template: obj.responseMessage
+                });
             }
         });
     };
