@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ngCordova','angular-md5', 'base64','chart.js']);
 
-app.run(function($ionicPlatform) {
+app.run(function($ionicPlatform, $cordovaSpinnerDialog, $rootScope, $cordovaToast) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -21,9 +21,26 @@ app.run(function($ionicPlatform) {
       StatusBar.styleDefault();
     }
   });
+
+
+    //loading data spinner
+    $rootScope.$on('loading:show', function () {
+        $cordovaSpinnerDialog.show("", "Loading..", true);
+    });
+
+    $rootScope.$on('loading:hide', function () {
+        $cordovaSpinnerDialog.hide();
+    });
+
+    //request error
+    $rootScope.$on('response:error', function () {
+        $cordovaSpinnerDialog.hide();
+        $cordovaToast.showLongTop("Process fail, please try again..");
+    });
+
 });
 
-app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $httpProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
@@ -90,5 +107,27 @@ app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
   $urlRouterProvider.otherwise('/login');
 
   $ionicConfigProvider.tabs.position('bottom');
+
+  $httpProvider.defaults.timeout = 5000;
+  $httpProvider.interceptors.push(function ($rootScope) {
+        return {
+            request: function (config) {
+                $rootScope.$broadcast('loading:show');
+                return config;
+            },
+            response: function (response) {
+                $rootScope.$broadcast('loading:hide');
+                return response;
+            },
+            requestError: function (requestError) {
+                $rootScope.$broadcast('request:error');
+                return requestError;
+            },
+            responseError: function (responseError) {
+                $rootScope.$broadcast('response:error');
+                return responseError;
+            }
+        };
+    });
 
 });
