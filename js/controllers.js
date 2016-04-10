@@ -91,8 +91,9 @@ angular.module('starter.controllers', [])
 
 .controller('DashCtrl', function($scope, $http) {})
 
-.controller('EmployeeCtrl', function($scope, $http, $ionicModal, $cordovaToast, $ionicHistory) {
+.controller('EmployeeCtrl', function($scope, $http, $ionicModal, $cordovaToast, $ionicHistory, $ionicScrollDelegate) {
     $scope.auth = window.localStorage['auth'];
+    $scope.page = 1; //default page = 1
 
     $scope.$on("$ionicView.enter", function () {
         $ionicHistory.clearCache();
@@ -102,19 +103,24 @@ angular.module('starter.controllers', [])
     //panggil restfull service employee
     $http({
         method: 'GET',
-        url: 'http://bkn-app.jelastic.skali.net/api/v1/employee',
+        url: 'http://bkn-app.jelastic.skali.net/api/v1/employee/page/'+$scope.page,
         headers: {'Authorization': 'Basic ' + $scope.auth}
     }).success(function (obj, status) {
         $scope.employee = obj.payload.rows;        
     });
     
     $scope.refresh = function(){
+        $scope.page = 1;
         $http({
             method: 'GET',
-            url: 'http://bkn-app.jelastic.skali.net/api/v1/employee',
+            url: 'http://bkn-app.jelastic.skali.net/api/v1/employee/page/'+$scope.page,
             headers: {'Authorization': 'Basic ' + $scope.auth}
         }).success(function (obj, status) {
+            $ionicHistory.clearCache();
+            $ionicHistory.clearHistory();
+            $scope.isScroll = true;
             $scope.employee = obj.payload.rows;
+            $ionicScrollDelegate.scrollTop();
         });
     };
     
@@ -179,6 +185,33 @@ angular.module('starter.controllers', [])
     $scope.$on('$destroy', function () {
         $scope.modal.remove();
     });
+
+
+    //handle pagging
+    $scope.isScroll = true;
+    $scope.scroolTrue = function () {
+        return $scope.isScroll;
+    };
+
+    //load more
+    $scope.loadMore = function () {
+        $scope.page += 1;
+        $http({
+            method: 'GET',
+            url: 'http://bkn-app.jelastic.skali.net/api/v1/employee/page/' + $scope.page,
+            headers: {'Authorization': 'Basic ' + $scope.auth}
+        }).success(function (obj, status) {
+            var listEmp = obj.payload.rows;
+            if (listEmp.length > 0) {
+                $scope.employee = $scope.employee.concat(listEmp);
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+            } else {
+                $cordovaToast.showShortCenter('Last records');
+                $scope.isScroll = false;
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+            }
+        });
+    };
 
 })
 

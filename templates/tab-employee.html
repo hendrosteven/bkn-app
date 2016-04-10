@@ -17,10 +17,9 @@
         <h2>{{emp.fullName}}</h2>
         <p>{{emp.email}}</p>
         <i class="icon ion-chevron-right icon-accessory"></i>
-        <ion-option-button class="button-assertive" ng-click="remove(emp)">
-          Delete
-        </ion-option-button>
       </ion-item>
+      <ion-item ng-show="!employee.length"><center><p>Empty list..</p></center></ion-item>
     </ion-list>
+    <ion-infinite-scroll ng-if="scroolTrue()" on-infinite="loadMore()" distance="5%"></ion-infinite-scroll>
   </ion-content>
 </ion-view>
