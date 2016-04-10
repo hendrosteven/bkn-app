@@ -1,8 +1,27 @@
-<ion-view view-title="Detail Employee">
-  <ion-content class="padding">
-    <img ng-src="{{chat.face}}" style="width: 64px; height: 64px">
-    <p>
-      {{chat.lastText}}
-    </p>
-  </ion-content>
+<ion-view view-title="Employee Detail">
+<content has-header="true" padding="true" style="padding: 10px">
+<div class="list" style="padding-top:20px">
+  <label class="item item-input item-stacked-label">
+    <span class="input-label">Nip</span>
+    <input type="text" ng-model="employee.number" disabled>
+  </label>
+  <label class="item item-input item-stacked-label">
+    <span class="input-label">Full Name</span>
+    <input type="text" ng-model="employee.fullName" disabled>
+  </label>
+  <label class="item item-input item-stacked-label">
+    <span class="input-label">Address</span>
+    <input type="text" ng-model="employee.address" disabled>
+  </label>
+  <label class="item item-input item-stacked-label">
+    <span class="input-label">Email</span>
+    <input type="text" ng-model="employee.email" disabled>
+  </label>
+  <label class="item item-input item-stacked-label">
+    <span class="input-label">Phone</span>
+    <input type="text" ng-model="employee.phone" disabled>
+  </label>
+</div>
+</content>
 </ion-view>
+

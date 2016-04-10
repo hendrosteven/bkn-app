@@ -229,8 +229,16 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('EmployeeDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
+.controller('EmployeeDetailCtrl', function($scope, $http, $stateParams) {
+    $scope.auth = window.localStorage['auth'];
+    $scope.employee = {};
+    $http({
+        method: 'GET',
+        url: 'http://bkn-app.jelastic.skali.net/api/v1/employee/id/' + $stateParams.employeeId,
+        headers: {'Authorization': 'Basic ' + $scope.auth}
+    }).success(function (obj, status) {
+        $scope.employee = obj.payload.rows;
+    });
 })
 
 
