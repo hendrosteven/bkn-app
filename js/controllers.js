@@ -1,11 +1,16 @@
 angular.module('starter.controllers', [])
 
-.controller('LoginCtrl',function($scope, $ionicModal, $http, md5, $cordovaToast, $state, $base64){
+.controller('LoginCtrl',function($scope, $ionicModal, $http, md5, $cordovaToast, $state, $base64, $ionicHistory){
 
     //cek if already login
     if (window.localStorage['auth']) {
         $state.go('tab.dash');
     }
+
+    $scope.$on("$ionicView.enter", function () {
+        $ionicHistory.clearCache();
+        $ionicHistory.clearHistory();
+    });
 
     $scope.input = {
         "email" : "",
