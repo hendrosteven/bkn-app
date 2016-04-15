@@ -1,26 +1,26 @@
 <div class="modal">
-<div class="bar bar-header bar-calm">
-  <h1 class="title">Update</h1>
-  <div class="button button-clear" ng-click="editClose()"><span class="icon ion-close"></span></div>
-</div>
+    <div class="bar bar-header bar-calm">
+        <h1 class="title">Update</h1>
+        <div class="button button-clear" ng-click="editClose()"><span class="icon ion-close"></span></div>
+    </div>
 
-<content has-header="true" padding="true" style="padding: 10px">
-<div class="list" style="padding-top:20px">
-  <label class="item item-input item-stacked-label">
-    <span class="input-label">Email</span>
-    <input type="text" placeholder="Your email" ng-model="account.email">
-  </label>
-  <label class="item item-input item-stacked-label">
-    <span class="input-label">Password</span>
-    <input type="password" placeholder="Your password" ng-model="account.password">
-  </label>
-  <label class="item item-input item-stacked-label">
-    <span class="input-label">Full Name</span>
-    <input type="text" placeholder="Your Name" ng-model="account.fullName">
-  </label>
-</div>
-<center>
-    <button class="button button-assertive" ng-click="update()">Update</button>
-</center>
-</content>
+    <content has-header="true" padding="true" style="padding: 10px">
+        <div class="list" style="padding-top:20px">
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Email</span>
+                <input type="text" placeholder="Your email" ng-model="account.email">
+            </label>
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Password</span>
+                <input type="password" placeholder="Your password" ng-model="account.password">
+            </label>
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Full Name</span>
+                <input type="text" placeholder="Your Name" ng-model="account.fullName">
+            </label>
+        </div>
+        <center>
+            <button class="button button-assertive" ng-click="update()">Update</button>
+        </center>
+    </content>
 </div>
